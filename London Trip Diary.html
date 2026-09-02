@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Three-Night London Trip</title>
+<style>
+  :root{
+    --paper: #faf6ee;
+    --paper-alt: #f2ecdd;
+    --ink: #2b2420;
+    --ink-soft: #5c5248;
+    --rule: #d9cdb6;
+    --accent: #8b3a3a;
+    --accent-soft: #b96b4f;
+    --gold: #a9822f;
+    --card-shadow: 0 10px 30px rgba(60,45,20,0.15);
+    --tape: rgba(169,130,47,0.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper: #1c1a17;
+      --paper-alt: #242019;
+      --ink: #ece3d3;
+      --ink-soft: #bcb0a0;
+      --rule: #45392c;
+      --accent: #d98e6e;
+      --accent-soft: #e0a880;
+      --gold: #d4af5a;
+      --card-shadow: 0 10px 30px rgba(0,0,0,0.45);
+      --tape: rgba(212,175,90,0.25);
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, serif;
+    line-height:1.7;
+  }
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 24px 80px;
+  }
+  header.hero{
+    text-align:center;
+    padding:72px 24px 48px;
+    background:
+      radial-gradient(ellipse at top, var(--paper-alt) 0%, var(--paper) 70%);
+    border-bottom:1px solid var(--rule);
+  }
+  header.hero .kicker{
+    letter-spacing:0.35em;
+    text-transform:uppercase;
+    font-size:0.72rem;
+    color:var(--gold);
+    font-family: Helvetica, Arial, sans-serif;
+    margin-bottom:14px;
+  }
+  header.hero h1{
+    font-size:clamp(2rem, 5vw, 3.2rem);
+    margin:0 0 10px;
+    font-weight:400;
+    letter-spacing:0.01em;
+  }
+  header.hero .byline{
+    font-style:italic;
+    color:var(--ink-soft);
+    font-size:1.05rem;
+  }
+  .dates{
+    margin-top:18px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size:0.85rem;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+
+  nav.daynav{
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:var(--paper);
+    border-bottom:1px solid var(--rule);
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    padding:14px 16px;
+    flex-wrap:wrap;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+  nav.daynav a{
+    color:var(--ink-soft);
+    text-decoration:none;
+    font-size:0.82rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:8px 16px;
+    border:1px solid var(--rule);
+    border-radius:999px;
+    transition:all .15s ease;
+    white-space:nowrap;
+  }
+  nav.daynav a:hover{
+    border-color:var(--accent-soft);
+    color:var(--accent);
+  }
+
+  section.day{
+    padding:64px 0 24px;
+    border-bottom:1px solid var(--rule);
+  }
+  section.day:last-of-type{border-bottom:none;}
+
+  .day-heading{
+    text-align:center;
+    margin-bottom:8px;
+  }
+  .day-heading .day-num{
+    font-family: Helvetica, Arial, sans-serif;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    font-size:0.75rem;
+    color:var(--gold);
+  }
+  .day-heading h2{
+    font-size:clamp(1.7rem, 4vw, 2.4rem);
+    font-weight:400;
+    margin:6px 0 4px;
+  }
+  .day-heading .day-sub{
+    font-style:italic;
+    color:var(--ink-soft);
+    font-size:0.95rem;
+  }
+
+  .stats-row{
+    display:flex;
+    justify-content:center;
+    gap:36px;
+    flex-wrap:wrap;
+    margin:34px 0 46px;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+  .stat{
+    text-align:center;
+  }
+  .stat .num{
+    font-size:1.6rem;
+    color:var(--accent);
+    font-weight:700;
+  }
+  .stat .label{
+    font-size:0.7rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+
+  article.entry h3{
+    font-size:1.25rem;
+    font-weight:400;
+    color:var(--accent);
+    border-bottom:1px solid var(--rule);
+    padding-bottom:8px;
+    margin:44px 0 18px;
+  }
+  article.entry h3:first-of-type{margin-top:0;}
+  article.entry p{
+    margin:0 0 18px;
+    font-size:1.04rem;
+    text-align:justify;
+    text-justify:inter-word;
+    hyphens:auto;
+  }
+  article.entry p.pull{
+    font-style:italic;
+    color:var(--ink-soft);
+    border-left:3px solid var(--gold);
+    padding-left:18px;
+    margin:26px 0;
+  }
+
+  .photo{
+    margin:30px auto;
+    max-width:520px;
+    background:var(--paper-alt);
+    padding:14px 14px 20px;
+    box-shadow:var(--card-shadow);
+    border-radius:2px;
+  }
+  .photo.left{ float:left; margin:8px 28px 18px 0; transform:rotate(-1.5deg); }
+  .photo.right{ float:right; margin:8px 0 18px 28px; transform:rotate(1.5deg); }
+  .photo img{
+    display:block;
+    width:100%;
+    height:auto;
+    border-radius:1px;
+  }
+  .photo figcaption{
+    font-family: Helvetica, Arial, sans-serif;
+    font-size:0.76rem;
+    color:var(--ink-soft);
+    text-align:center;
+    padding-top:10px;
+    letter-spacing:0.02em;
+  }
+  .photo-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin:34px 0;
+    clear:both;
+  }
+  .photo-grid .photo{ margin:0; float:none; transform:none; max-width:none; }
+  .photo-grid .photo:nth-child(odd){ transform:rotate(-1deg); }
+  .photo-grid .photo:nth-child(even){ transform:rotate(1deg); }
+
+  .clearfix::after{content:"";display:table;clear:both;}
+
+  /* placeholder days */
+  .placeholder{
+    text-align:center;
+    padding:60px 24px;
+    color:var(--ink-soft);
+  }
+  .placeholder .icon{
+    font-size:2.2rem;
+    margin-bottom:14px;
+    color:var(--gold);
+    opacity:0.8;
+  }
+  .placeholder p{
+    font-style:italic;
+    max-width:420px;
+    margin:0 auto;
+  }
+
+  footer{
+    text-align:center;
+    padding:48px 24px 20px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+
+  @media (max-width: 640px){
+    .photo.left, .photo.right{ float:none; margin:24px auto; transform:none; max-width:100%; }
+    .photo-grid{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">A Travel Journal</div>
+  <h1>Our Three-Night London Trip</h1>
+  <div class="byline">Andy &amp; Alison Cheetham</div>
+  <div class="dates">29&ndash;31 August 2026</div>
+</header>
+
+<nav class="daynav">
+  <a href="#day1">Day One</a>
+  <a href="#day2">Day Two</a>
+  <a href="#day3">Day Three</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- DAY ONE -->
+  <section class="day" id="day1">
+    <div class="day-heading">
+      <div class="day-num">Day One</div>
+      <h2>Saturday, 29th August</h2>
+      <div class="day-sub">Guiseley &rarr; Leeds &rarr; King&rsquo;s Cross &rarr; South Bank</div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat"><div class="num">19,174</div><div class="label">Andy&rsquo;s steps</div></div>
+      <div class="stat"><div class="num">21,106</div><div class="label">Alison&rsquo;s steps</div></div>
+      <div class="stat"><div class="num">2</div><div class="label">Free museums</div></div>
+      <div class="stat"><div class="num">1</div><div class="label">Agatha Christie</div></div>
+    </div>
+
+    <article class="entry">
+
+      <h3>The Journey Down</h3>
+      <p>We set off on Saturday morning with our cases trailing behind us &mdash; Alison with her backpack, Andy dragging the wheelie case &mdash; and walked down to catch the train from Guiseley into Leeds. We timed it just right at Leeds station: enough of a gap to grab a coffee and a croissant before stepping onto our LNER train to London King&rsquo;s Cross.</p>
+      <p>It was a comfortable ride. Alison read her book for most of the journey while Andy made a doomed attempt to finish a work email, despite having a good two hours to do it in. We&rsquo;d packed rain jackets because the forecast had threatened showers, but London greeted us with warm, pleasant weather and not a drop of rain in sight.</p>
+      <p>The Crowne Plaza in King&rsquo;s Cross turned out to be a good fifteen-minute walk from the station &mdash; through the busy junctions, up the road, left, on and on, right, and on again &mdash; nearly a mile in total. Still, we arrived by half past twelve and were lucky enough to be let straight up to our room to drop our bags and get ready to go out.</p>
+
+      <h3>The British Library</h3>
+      <div class="photo left">
+        <img src="Photos%20Day%2001/20260829_134336_landscape.jpg" alt="The Magna Carta on display in the British Library's Treasures Gallery">
+        <figcaption>The Magna Carta, Treasures Gallery, British Library</figcaption>
+      </div>
+      <p>Andy had wanted to visit the British Library for a long time, ever since learning that the Venerable Bede&rsquo;s <em>Ecclesiastical History of the English People</em> and the Lindisfarne Gospels were held there. It's right by King&rsquo;s Cross, so we walked back past the station, up past Euston Road, and in we went &mdash; free entry, which was a very pleasant surprise.</p>
+      <p>First stop was the restaurant for a very pleasant salad and a drink, then into the Treasures Gallery, which was genuinely incredible. The Magna Carta was the star exhibit, but the room was full of extraordinary things: early Bible manuscripts, Buddhist and Hindu texts, and &mdash; unexpectedly &mdash; original Beatles lyrics in Lennon and McCartney&rsquo;s own hand, and Monty Python scripts.</p>
+      <p class="pull">The one disappointment: the Lindisfarne Gospels and Bede&rsquo;s history were both considered too rare even for the Treasures Gallery. They're kept away from public display altogether &mdash; something to come back for another time.</p>
+
+      <h3>Trafalgar Square &amp; an Expensive Scone</h3>
+      <p>From King&rsquo;s Cross we took the tube down to Embankment and walked up Villiers Street, as we always do in London &mdash; half-heartedly looking for the Italian restaurant Andy&rsquo;s dad used to love taking the family to, long since replaced by something else. We wandered up towards Trafalgar Square, ducked into Waterstones where Alison bought a book, and then found a smart little café right next door for a coffee break &mdash; The Grand by Caff&egrave; Concerto.</p>
+      <p>We sat outside in the sunshine with a beautiful view straight across to Nelson&rsquo;s Column. Andy had coffee and cake; Alison ordered a scone with jam and cream and ended up, to her surprise, with what looked like two. Forty-five very pleasant minutes later, the bill arrived: <strong>nearly &pound;42</strong>. Prime Trafalgar Square real estate, apparently &mdash; we paid up and took it on the chin.</p>
+
+      <h3>National Portrait Gallery</h3>
+      <div class="photo-grid">
+        <figure class="photo">
+          <img src="Photos%20Day%2001/20260829_164202.jpg" alt="Portraits of British political figures on display at the National Portrait Gallery">
+          <figcaption>Faces from British political history</figcaption>
+        </figure>
+        <figure class="photo">
+          <img src="Photos%20Day%2001/20260829_165633.jpg" alt="A vivid contemporary portrait painting at the National Portrait Gallery">
+          <figcaption>A striking contemporary piece</figcaption>
+        </figure>
+        <figure class="photo">
+          <img src="Photos%20Day%2001/20260829_165911.jpg" alt="A portrait painting on a golden background at the National Portrait Gallery">
+          <figcaption>One of the many portrait studies</figcaption>
+        </figure>
+        <figure class="photo">
+          <img src="Photos%20Day%2001/20260829_170240.jpg" alt="A double portrait painting of two men at the National Portrait Gallery">
+          <figcaption>A double portrait that caught our eye</figcaption>
+        </figure>
+      </div>
+      <p>This was Alison&rsquo;s pick &mdash; she always loves a gallery, probably inherited from her art-student mother. Andy went in without huge expectations and came out genuinely surprised by how much he enjoyed it. There was something captivating about seeing faces recognised from a lifetime of television and news &mdash; David Attenborough, Princess Diana, actors, sportspeople &mdash; rendered by real artists rather than a camera lens. A room of contemporary portraits, painted only the last couple of years, was just as moving. Free to enter, and well worth the two hours we lost in there.</p>
+
+      <h3>South Bank &amp; Witness for the Prosecution</h3>
+      <div class="photo right">
+        <img src="Photos%20Day%2001/20260829_181803.jpg" alt="Outdoor tables at Strada Italian restaurant on the South Bank">
+        <figcaption>Strada, South Bank &mdash; pizza and fries for dinner</figcaption>
+      </div>
+      <p>Dinner was at Strada on the South Bank, where we shared a pizza and a portion of fries between us. Sharing fries with Andy comes with a running joke: he&rsquo;s invariably accused of eating more than his fair share &mdash; probably true, if we&rsquo;re honest &mdash; and just as invariably mounts an unconvincing defence. All very light-hearted, and a good-natured start to the evening. Fed and watered, we set off along the South Bank towards County Hall, past the London Eye turning slowly against the evening sky, with Big Ben and the Houses of Parliament coming into view across the water.</p>
+
+      <div class="photo-grid">
+        <figure class="photo">
+          <img src="Photos%20Day%2001/20260829_183444.jpg" alt="The London Eye ferris wheel seen from below against a cloudy evening sky">
+          <figcaption>The London Eye, early evening</figcaption>
+        </figure>
+        <figure class="photo">
+          <img src="Photos%20Day%2001/20260829_184005.jpg" alt="Andy and Alison taking a selfie on the South Bank with Big Ben and the Houses of Parliament behind them">
+          <figcaption>Us, with Big Ben behind</figcaption>
+        </figure>
+      </div>
+
+      <p>Our destination was County Hall, on the south side of the river, to see <em>Witness for the Prosecution</em> &mdash; an Agatha Christie play performed, remarkably, in the Council Chamber, also known as the former GLC Debating Hall. County Hall has long since become a collection of tourist attractions, but the chamber itself is still there, huge and ornate, with the circular tiers of seats where councillors once debated the laws of London.</p>
+      <p class="pull">One fun fact we picked up: in the early 1980s, GLC leader Ken Livingstone used this very building to needle the government of the day &mdash; a huge banner was hung across County Hall&rsquo;s curving riverside frontage, facing the Palace of Westminster head-on, displaying London&rsquo;s unemployment figures and updated every month for MPs across the water to see.</p>
+
+      <div class="photo-grid">
+        <figure class="photo">
+          <img src="Photos%20Day%2001/20260829_185239.jpg" alt="Poster for Witness for the Prosecution at London County Hall">
+          <figcaption>In the foyer at County Hall</figcaption>
+        </figure>
+        <figure class="photo">
+          <img src="Photos%20Day%2001/20260829_190645.jpg" alt="Inside the ornate Council Chamber, the former GLC Debating Hall, before the play began">
+          <figcaption>The Council Chamber (former GLC Debating Hall), before curtain up</figcaption>
+        </figure>
+      </div>
+
+      <p>Settled into our comfy leather chairs, the play began &mdash; and it was superb. Beautifully acted, wonderfully atmospheric, and completely immersive; you really did feel like you were sitting inside the drama. Classic 1930s Agatha Christie, complete with a very funny, very English streak of characters insisting that their justice system was simply the greatest in the world.</p>
+
+      <h3>The Long Walk Home</h3>
+      <p>By the time the play ended it was around 10pm. We walked over the Charing Cross footbridge to Embankment, took the tube round on the Circle Line back to King&rsquo;s Cross, and then trudged the fifteen minutes back to the hotel one more time. We were both stunned to check our step counts: 19,174 for Andy and 21,106 for Alison, who, despite having shorter legs, always somehow racks up more steps. Thoroughly exhausted, we turned in for bed. End of day one.</p>
+
+    </article>
+  </section>
+
+  <!-- DAY TWO -->
+  <section class="day" id="day2">
+    <div class="day-heading">
+      <div class="day-num">Day Two</div>
+      <h2>Sunday, 30th August</h2>
+      <div class="day-sub">South Kensington &rarr; Kensington Gardens &rarr; The Strand</div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat"><div class="num">21,345</div><div class="label">Andy&rsquo;s steps</div></div>
+      <div class="stat"><div class="num">23,682</div><div class="label">Alison&rsquo;s steps</div></div>
+      <div class="stat"><div class="num">9.5</div><div class="label">Miles walked</div></div>
+      <div class="stat"><div class="num">&pound;9</div><div class="label">Per ice cream</div></div>
+    </div>
+
+    <article class="entry">
+
+      <h3>Breakfast at Farm Girl</h3>
+      <div class="photo left">
+        <img src="Photos%20Day%2002/Farm%20Girl%20Cafe%20Exhibition%20Road.png" alt="The pink-fronted exterior of Farm Girl cafe on Exhibition Road, South Kensington">
+        <figcaption>Farm Girl, Exhibition Road</figcaption>
+      </div>
+      <p>Day two had a clear mission: the Victoria and Albert Museum, somewhere we&rsquo;d never managed to visit despite having done the rounds of the Natural History Museum, the Science Museum and the British Museum over the years. We got ourselves ready, walked down to King&rsquo;s Cross, and took the tube to South Kensington, scouting out breakfast on the way. We found it at Farm Girl, a little pink-fronted café right on Exhibition Road.</p>
+      <p>It was gorgeous &mdash; lovely service, warm enough to sit outside, and thoroughly good food. Alison had two poached eggs on toast, Andy had cinnamon-and-banana sourdough, and there was very good coffee and orange juice to go with it. We sat and watched London wake up around us, in no hurry at all.</p>
+      <div class="photo right">
+        <img src="Photos%20Day%2002/Breakfast.jpg" alt="Poached eggs on toast and cinnamon banana sourdough at Farm Girl cafe">
+        <figcaption>A very good start to the day</figcaption>
+      </div>
+      <p class="pull">Farm Girl began life on Portobello Road in 2015, when founder Rose Mann brought a taste of Australian farm-café culture to Notting Hill &mdash; complete with millennial-pink tables and a pink coffee machine. The Exhibition Road branch where we ate is one of several it has since spread to across London.</p>
+
+      <h3>The Victoria &amp; Albert Museum</h3>
+      <div class="photo-grid">
+        <figure class="photo">
+          <img src="Photos%20Day%2002/V%26A%20Museum.png" alt="The grand facade of the Victoria and Albert Museum on Exhibition Road">
+          <figcaption>The V&amp;A, Exhibition Road</figcaption>
+        </figure>
+        <figure class="photo">
+          <img src="Photos%20Day%2002/Bed%20of%20Wares.png" alt="The Great Bed of Ware, a huge carved four-poster bed, on display at the V&A">
+          <figcaption>The Great Bed of Ware</figcaption>
+        </figure>
+      </div>
+      <p>Breakfast finished just in time for the museum&rsquo;s 10am opening &mdash; a four or five minute walk up Exhibition Road and in we went, pleasantly surprised once again by free entry. What greeted us was enormous: floor after floor of artefacts spanning Roman, Anglo-Saxon and medieval England and well beyond. Alison had expected somewhere more narrowly focused on design; instead it was a sweeping history of craft and culture, including spiritual treasures on a colossal scale, among them huge triptychs lifted from Catholic churches. We wandered for a while slightly overwhelmed, without much of a plan.</p>
+      <p class="pull">The V&amp;A began life in 1852, born out of the Great Exhibition of 1851, and spent its first forty-odd years as the plainly-named &ldquo;South Kensington Museum.&rdquo; It only became the Victoria and Albert Museum in 1899, when an ageing Queen Victoria laid the foundation stone of the current building herself, in one of her last public appearances.</p>
+      <p>Two things we&rsquo;d specifically looked up as V&amp;A highlights: the Great Bed of Ware, an astonishing four-poster over three metres wide, built around 1590 as a tourist attraction for a coaching inn in Hertfordshire &mdash; and, tucked away nearby, the Gloucester Candlestick, which we found a little underwhelming at first glance but which turned out to have a remarkable story once looked into properly.</p>
+      <div class="photo left">
+        <img src="Photos%20Day%2002/Gloucester%20Candlelight.png" alt="A close-up detail of the ornately decorated gilt-bronze Gloucester Candlestick at the V&A">
+        <figcaption>The Gloucester Candlestick</figcaption>
+      </div>
+      <p class="pull">The Great Bed of Ware was already famous enough by 1601 that Shakespeare could get a laugh from it &mdash; Sir Toby Belch, in <em>Twelfth Night</em>, tells Andrew Aguecheek to write on paper &ldquo;although the sheet were big enough for the Bed of Ware.&rdquo; It's said to sleep at least four couples at once. The Gloucester Candlestick, meanwhile, is even older &mdash; cast around 1104&ndash;1113 for Gloucester Cathedral out of a strange bronze alloy unusually rich in silver, leading historians to suspect it was melted down from a hoard of old coins.</p>
+
+      <h3>Kensington Gardens &amp; the Albert Memorial</h3>
+      <p>Legs weary from the museum, we headed into Kensington Gardens to unwind. On the way we passed the Royal Albert Hall, where Andy once saw a Jon Anderson concert aged seventeen &mdash; Alison has never been inside, so we&rsquo;ve promised ourselves a return visit whenever something appealing comes up. We were both stopped in our tracks by the Albert Memorial, a monument of a scale and gilded majesty neither of us remembered seeing before, if we&rsquo;d seen it at all.</p>
+      <div class="photo right">
+        <img src="Photos%20Day%2002/Prince%20Albert%20Memorial.jpg" alt="The ornate gilded spire of the Albert Memorial in Kensington Gardens">
+        <figcaption>The Albert Memorial</figcaption>
+      </div>
+      <p class="pull">Queen Victoria commissioned the memorial after Prince Albert&rsquo;s death in 1861, and it was finished in 1872. For much of the twentieth century Albert&rsquo;s gilded statue was painted black &mdash; long assumed to be wartime camouflage against Zeppelin raids, though more recent research suggests it was simply pollution damage. It wasn&rsquo;t re-gilded until a decade-long, multi-million-pound restoration finished in 1998, which is the gleaming version we saw.</p>
+      <p>It really is remarkable how London tucks something so spectacular almost casually into a park &mdash; in most other cities it would be the headline attraction. We strolled on to the Diana, Princess of Wales Memorial, passing it respectfully, and found a lakeside café nearby where we sat with fresh coffees and our books for a while, enjoying weather that was, once again, far warmer than the forecast had promised.</p>
+      <div class="photo-grid">
+        <figure class="photo">
+          <img src="Photos%20Day%2002/Kensington%20Gardens%20Cafe%20near%20Dianna%20Memorial.png" alt="A busy lakeside cafe terrace in Kensington Gardens near the Diana Memorial">
+          <figcaption>Coffee by the water, near the Diana Memorial</figcaption>
+        </figure>
+        <figure class="photo">
+          <img src="Photos%20Day%2002/Mildreds%20Restaurant.png" alt="The exterior of Mildreds vegan restaurant near King's Cross">
+          <figcaption>Mildreds, near King&rsquo;s Cross</figcaption>
+        </figure>
+      </div>
+
+      <h3>Mildreds &amp; a Recharge</h3>
+      <p>By about 2pm our thoughts turned to the evening: we had tickets for <em>Six</em>, the musical about Henry VIII&rsquo;s six wives, at 7pm at the Vaudeville Theatre on the Strand. Rather than push on, we took the tube back to King&rsquo;s Cross and found a table at Mildreds, a restaurant famous for its all-vegan menu. It did not disappoint &mdash; Andy had a Korean-style sticky &ldquo;chicken&rdquo; with fries, Alison a more American-style fried &ldquo;chicken&rdquo; with fries of her own, and very good drinks alongside. Back at the Crowne Plaza we properly relaxed for half an hour: Andy read a little and dozed off entirely, Alison had a quieter unwind, and eventually we roused ourselves and got ready to head back out.</p>
+      <p class="pull">Mildreds opened its first restaurant on Greek Street, Soho, in 1988, when a fully vegetarian menu was still a genuine novelty on the London dining scene. It went fully vegan across the board in 2021, and in the years since has been repeatedly voted among London&rsquo;s favourite plant-based restaurants.</p>
+
+      <h3>The Lyceum Tavern &amp; Six the Musical</h3>
+      <div class="photo-grid">
+        <figure class="photo">
+          <img src="Photos%20Day%2002/Lyceum%20Tavern%20outside.png" alt="The traditional black-and-gold exterior of the Lyceum Tavern on the Strand">
+          <figcaption>The Lyceum Tavern, the Strand</figcaption>
+        </figure>
+        <figure class="photo">
+          <img src="Photos%20Day%2002/Lyceum%20Tavern%20Cosy%20Seating.jpg" alt="Alison sitting in a cosy wood-panelled booth at the Lyceum Tavern with a bottle of Samuel Smith's beer">
+          <figcaption>Tucked into a cosy booth</figcaption>
+        </figure>
+      </div>
+      <p>We took the tube towards Leicester Square and walked up to the Strand, where we found the Lyceum Tavern &mdash; a proper, classic London boozer, all dark wood panelling and lovely little snug booths to sit in. Alison had an Indian Pale Ale and Andy a zero-alcohol brown ale, both very good, and both, it turned out, brewed by Samuel Smith&rsquo;s, whose beers are all this pub serves.</p>
+      <p class="pull">Samuel Smith&rsquo;s, founded in 1758 in Tadcaster &mdash; not far from home, as it happens &mdash; is Yorkshire&rsquo;s oldest brewery, and its pubs are famous for what they don&rsquo;t allow: since 2004 there&rsquo;s been a strict house ban on music, televisions and, more recently, mobile phones at the bar. No danger of anyone doom-scrolling over their pint in the Lyceum Tavern, then.</p>
+      <p>Suitably fortified, we walked round to the Vaudeville Theatre for <em>Six</em>. It was a world away from the previous night&rsquo;s Agatha Christie: showy, jazzy, colourful and relentlessly energetic, with six phenomenal performers each playing one of Henry VIII&rsquo;s wives. Ninety minutes with no interval, and it never once let up &mdash; funny, sharp, brilliantly sung, and with a genuinely moving underlying point: history gave all the credit to Henry, when without his six wives he&rsquo;d have been nobody at all. We loved every minute of it.</p>
+      <div class="photo-grid">
+        <figure class="photo">
+          <img src="Photos%20Day%2002/Vaudeville%20Theatre%20Six.png" alt="The Vaudeville Theatre facade on the Strand with the illuminated SIX musical sign">
+          <figcaption>The Vaudeville Theatre, the Strand</figcaption>
+        </figure>
+        <figure class="photo">
+          <img src="Photos%20Day%2002/Six%20Musical%20Finale.jpg" alt="The six performers of Six the Musical on stage in a golden spotlight during the finale, surrounded by confetti">
+          <figcaption>The finale of Six</figcaption>
+        </figure>
+      </div>
+      <p class="pull">Six began life as a scrappy student show: Cambridge undergraduates Toby Marlow and Lucy Moss wrote it for the 2017 Edinburgh Fringe, where it played to about a hundred people a night. Within a few years it was a Grammy-nominated album and a hit on both the West End and Broadway &mdash; and Moss, still only in her twenties, became the youngest woman ever to direct a Broadway musical.</p>
+
+      <h3>Covent Garden &amp; the Long Walk Home</h3>
+      <p>We came out at around quarter past nine and wandered up into Covent Garden for an ice cream. The board offered small, regular and large, but we were only ever offered regular or large &mdash; small mysteriously never came up &mdash; so, resisting temptation, we both went for regular. What arrived were three utterly enormous scoops each, piled into cones dipped in chocolate and crushed nuts, so generous that Andy was offered a spare tub for the overspill as he left. He declined and simply ate faster; Alison managed hers with rather more decorum. At roughly &pound;9 a cone, it may be the most expensive ice cream either of us has ever bought &mdash; and we both felt we'd slightly overdone it, though very happily.</p>
+      <p>We stopped to watch some of Covent Garden&rsquo;s usual excellent street musicians, a guitarist who&rsquo;d gathered a couple of hundred people singing along, before heading down to Leicester Square, taking the tube back to King&rsquo;s Cross, and making the now-familiar walk back to the hotel. We were staggered to find we'd beaten yesterday&rsquo;s already enormous step count &mdash; 21,345 for Andy and 23,682 for Alison, which Alison&rsquo;s phone confirmed came out at about nine and a half miles. A brilliant day: some learning at the V&amp;A, some relaxing in Kensington Gardens, lovely food at Mildreds, and a fantastic night at the theatre with <em>Six</em>. End of day two.</p>
+
+    </article>
+  </section>
+
+  <!-- DAY THREE -->
+  <section class="day" id="day3">
+    <div class="day-heading">
+      <div class="day-num">Day Three</div>
+      <h2>Monday, 31st August</h2>
+      <div class="day-sub">Westminster &rarr; Greenwich &rarr; Piccadilly Circus</div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat"><div class="num">15,103</div><div class="label">Andy&rsquo;s steps</div></div>
+      <div class="stat"><div class="num">16,616</div><div class="label">Alison&rsquo;s steps</div></div>
+      <div class="stat"><div class="num">7.5m</div><div class="label">Thames tide rise</div></div>
+      <div class="stat"><div class="num">53</div><div class="label">Years since the statue</div></div>
+    </div>
+
+    <article class="entry">
+
+      <h3>Taking It Easier (In Theory)</h3>
+      <p>Two days of heavy walking had left both of us weary, so day three was meant to be a gentler affair. That plan lasted about as long as it took to remember we'd booked a guided walking tour for the morning. Our usual routine took us down to King&rsquo;s Cross and onto the tube to Westminster, where we surfaced with time to spare for a proper outdoor breakfast: coffee and a pastry from a Caff&egrave; Nero, eaten on a bench looking out over the Thames on the Embankment. A very pleasant way to start the day.</p>
+      <div class="photo left">
+        <img src="Photos%20Day%2003/Andy%20Elizabeth%20Tower%20before%20Churchill%20Tour.jpg" alt="Andy taking a selfie in front of the Elizabeth Tower (Big Ben) before the Churchill walking tour">
+        <figcaption>Waiting for the tour, Elizabeth Tower behind</figcaption>
+      </div>
+      <p>Today's plan centred on Winston Churchill: a guided walk around Westminster tracing his life and times, ending at the Churchill War Rooms in Whitehall &mdash; the underground bunker from which he and his commanders ran the war. We met our guide, Marianne, at the statue of Boadicea by Westminster Bridge, alongside a small international group: three American women, another couple of Americans, and a couple from somewhere in Eastern Europe. A nice, manageable size for a walking tour.</p>
+
+      <h3>Boadicea and the Blitz</h3>
+      <div class="photo-grid">
+        <figure class="photo">
+          <img src="Photos%20Day%2003/Boadicea%20Statue.png" alt="The bronze statue of Boadicea and Her Daughters in her chariot, by Westminster Bridge">
+          <figcaption>Boadicea and Her Daughters, Westminster Bridge</figcaption>
+        </figure>
+        <figure class="photo">
+          <img src="Photos%20Day%2003/Lady%20Dianna%20Memorial.jpg" alt="The bronze Battle of Britain Monument on Victoria Embankment, inscribed with Churchill's words about the RAF pilots of the Battle of Britain">
+          <figcaption>The Battle of Britain Monument, Victoria Embankment</figcaption>
+        </figure>
+      </div>
+      <p>Marianne began with Boadicea herself &mdash; queen of the Iceni, who led a rebellion against Roman occupation in the first century AD after the Romans seized her lands on her husband's death, and very nearly won. Marianne drew a deliberate line from Boadicea defending London against Rome to Churchill defending it against Hitler nineteen centuries later. Fact number one of the day: the Luftwaffe used moonlight reflecting off the Thames as a navigation aid, tracing the river's glinting curve straight into the heart of London to guide their bombers to their targets.</p>
+      <p class="pull">The Boadicea statue took its sculptor, Thomas Thornycroft, the better part of thirty years to finish &mdash; he worked on it from the 1850s until shortly before his death in 1885 &mdash; and wasn't erected here until 1902, seventeen years later. Queen Victoria and Prince Albert were closely involved in commissioning it, and Boadicea's face is said to bear more than a passing resemblance to the young Queen Victoria herself.</p>
+      <p>We walked up the Embankment past a run of memorials to the Second World War, including one to the Battle of Britain that neither of us had ever noticed before despite having walked this stretch many times. It turned out to be relatively recent: a huge bronze frieze unveiled in 2005, naming all 2,937 Allied aircrew &mdash; from fourteen different countries &mdash; who flew in the battle. Marianne also pointed out some old watergate steps, stranded well back from the modern riverbank, that once led down to the Thames from a long-vanished riverside palace &mdash; a reminder that before the Embankment was built in the 1860s, the river ran a good twenty metres further inland than it does today.</p>
+
+      <h3>Horse Guards &amp; the Admiralty</h3>
+      <div class="photo right">
+        <img src="Photos%20Day%2003/Horese%20Guarding%20Horse%20Guards%20parade.jpg" alt="A mounted Household Cavalry guard on horseback under the archway at Horse Guards Parade">
+        <figcaption>The changing of the guard, Horse Guards Parade</figcaption>
+      </div>
+      <p>We carried on past the Ministry of Defence and the site of the old War Office, arriving at Horse Guards Parade just as the mounted guard was ceremonially returning &mdash; perfect timing, and something neither of us had seen up close before. Marianne pointed out the building nearby where Churchill had lived and worked as First Lord of the Admiralty, before continuing up towards Trafalgar Square and back through the archway into the parade ground itself.</p>
+
+      <h3>Banqueting House</h3>
+      <div class="photo left">
+        <img src="Photos%20Day%2003/Banqueting%20House.png" alt="The Palladian facade of Banqueting House, Whitehall, lit up in the evening">
+        <figcaption>Banqueting House, Whitehall</figcaption>
+      </div>
+      <p>We spent a good while outside Banqueting House while Marianne walked us through a chunk of Stuart history. It was built in 1622 for James I by Inigo Jones, England's first architect to bring the Italian Renaissance style home from his travels &mdash; all clean Palladian lines rather than the Gothic London was used to. Its ceiling, painted by Rubens, was commissioned by James's son Charles I to glorify his father's reign. Charles, though, believed his authority came directly from God and increasingly ruled without Parliament, a stand-off that eventually erupted into civil war. He lost, of course, to Oliver Cromwell's forces, and Cromwell ruled in his place until his own son proved unequal to the job and the monarchy was restored under Charles II, who addressed the crowds from this very building.</p>
+      <p class="pull">Charles I's story ends right where it began: on 30 January 1649 he walked beneath Rubens's ceiling &mdash; a ceiling commissioned by his own father, glorifying the Stuart monarchy &mdash; one last time, climbed out through a first-floor window since bricked over, and was executed on a scaffold built against the building's front. When the ceiling panels first arrived from Rubens's studio in Antwerp, installers realised they didn't quite fit: England and the Low Countries used different standard lengths for a "foot," and nobody had accounted for it.</p>
+
+      <h3>Downing Street &amp; an Old Memory</h3>
+      <div class="photo-grid">
+        <figure class="photo">
+          <img src="Photos%20Day%2003/10%20Downing%20Street.jpg" alt="The Downing Street SW1 street sign on the wall at the entrance to Downing Street">
+          <figcaption>Downing Street</figcaption>
+        </figure>
+        <figure class="photo">
+          <img src="Photos%20Day%2003/Churchill%20Statue.jpg" alt="The bronze statue of Winston Churchill in Parliament Square">
+          <figcaption>Churchill, Parliament Square</figcaption>
+        </figure>
+      </div>
+      <p>On we went towards Downing Street and then Parliament Square, where Andy reflected on an old memory from childhood. He has a memory &mdash; aged nine, visiting London with his brother James and staying with his uncle Chris and Chris's girlfriend Angie in Fulham &mdash; of being driven through Westminster the very moment the Churchill statue was unveiled, in 1973. Fifty-three years later, there he was again, standing right next to that same statue on a guided tour of the man's life. He mentioned it to Marianne, who worked out the dates tallied and confirmed it was entirely plausible: a nice full-circle moment on a tour full of them.</p>
+
+      <h3>The Churchill War Rooms</h3>
+      <div class="photo right">
+        <img src="Photos%20Day%2003/Churchill%20War%20Rooms.png" alt="Staff working in the recreated Map Room of the Churchill War Rooms, preserved as it was in 1945">
+        <figcaption>The Map Room, Churchill War Rooms</figcaption>
+      </div>
+      <p>We said our goodbyes and thanks to Marianne &mdash; and to a woman from North Carolina on the tour who, entirely unprompted, told Andy how terrified she'd be of driving in the UK, gear stick and wrong side of the road included &mdash; then picked up audio guides and set off around the War Rooms ourselves. The underground command centre from which Churchill's government and military ran the war was fascinating throughout, but the Map Room stopped us both in our tracks.</p>
+      <p class="pull">The Map Room has been left completely untouched since 16 August 1945, the day the war ended and the lights were switched off for the last time &mdash; original wall maps, pinholes and all, exactly as the last shift left them eighty-one years ago.</p>
+
+      <h3>Deck Chairs &amp; Pelicans</h3>
+      <p>Legs thoroughly weary by this point &mdash; Alison rather less so than Andy, if we're honest &mdash; we crossed into St James's Park and did what any self-respecting tired tourists should: hired a couple of deck chairs by the lake and did nothing much at all. We were genuinely startled to find the lake patrolled by pelicans, wandering about entirely free rather than caged, along with herons, Egyptian geese and all sorts of other waterfowl. We read for a while, very content to simply sit.</p>
+      <p class="pull">St James's Park has had pelicans since 1664, when the Russian ambassador gave a pair to Charles II as a gift, knowing his fondness for exotic birds. They've never bred successfully here, so the population &mdash; usually half a dozen or so &mdash; has had to be topped up from abroad every so often for well over 350 years.</p>
+
+      <h3>A Boat to Greenwich</h3>
+      <div class="photo-grid">
+        <figure class="photo">
+          <img src="Photos%20Day%2003/20260831_172345.jpg" alt="Looking up at the underside of London Bridge from a passing boat on the Thames">
+          <figcaption>Passing beneath London Bridge</figcaption>
+        </figure>
+        <figure class="photo">
+          <img src="Photos%20Day%2003/Going%20under%20the%20Thames%20on%20boat%20to%20Greenwich.jpg" alt="Tower Bridge seen from below as the Greenwich boat passes underneath">
+          <figcaption>And under Tower Bridge</figcaption>
+        </figure>
+      </div>
+      <p>Deciding we'd earned something properly leisurely, we headed back to the Thames and bought tickets for a boat from Westminster Pier down to Greenwich via Tower Hill. None of us Cheethams have ever had reliable sea legs &mdash; Alison and Andy included &mdash; so there was a wobbly moment of quiet panic as the boat first swayed beneath us. It passed, thankfully, and off we went, sitting up on the open deck.</p>
+      <p>The crew doubled as guides, and were both very funny and genuinely informative, running through the history of the buildings lining the banks as we passed &mdash; including the popular claim that "wharf" is an acronym for "warehouse at riverfront." It's a nice story, repeated everywhere, but almost certainly folk etymology rather than fact; the word's real root is an old English one simply meaning a bank or landing-place. They also pointed out some of the Thames-side pubs that go back centuries, including the Prospect of Whitby, a sixteenth-century pub Andy remembered visiting decades ago when he lived in London as a young man.</p>
+      <div class="photo left">
+        <img src="Photos%20Day%2003/Canary%20Wharf%20on%20Greenwich%20boat.jpg" alt="The glass towers of Canary Wharf skyline seen from the Thames boat">
+        <figcaption>Canary Wharf, from the water</figcaption>
+      </div>
+      <p>The skyline shifted from historic riverside warehouses to the glass towers of Canary Wharf as we carried on downriver towards Greenwich.</p>
+
+      <h3>Greenwich at High Tide</h3>
+      <div class="photo right">
+        <img src="Photos%20Day%2003/Greenwich.jpg" alt="The Old Royal Naval College at Greenwich seen from the river at high tide">
+        <figcaption>Greenwich, seen from the water at high tide</figcaption>
+      </div>
+      <p>Pulling in at Greenwich, one of the crew pointed out something we'd never have clocked ourselves: we were seeing the Old Royal Naval College buildings from exactly the vantage point sailors would have had centuries ago, because the tide happened to be high. Aside from the traffic and the fashions, he said, the view from the water was essentially unchanged for centuries &mdash; and it was only visible to us in that way because the boat itself was riding high enough on the tide to see over the embankment wall. Earlier that same day, at low tide, the Thames here had been some <strong>7.5 metres</strong> lower. It's a proper reminder of just how much the river breathes in and out twice a day, and how differently this same view would have looked to us just a few hours earlier.</p>
+      <p>We didn't have much time on land, so we did what was fast becoming the theme of the trip and ducked into a riverside pub for a quick drink before turning straight back around for the boat to Westminster.</p>
+
+      <h3>Piccadilly Circus &amp; 'Dog Star'</h3>
+      <div class="photo-grid">
+        <figure class="photo">
+          <img src="Photos%20Day%2003/Picadilly%20Circus.jpg" alt="The Piccadilly Circus Underground sign with the Shaftesbury Memorial Fountain and buses in the background">
+          <figcaption>Piccadilly Circus</figcaption>
+        </figure>
+        <figure class="photo">
+          <img src="Photos%20Day%2003/Famous%20Advertisin%20at%20Picadilly%20Circus.jpg" alt="The illuminated advertising screens at Piccadilly Circus at night">
+          <figcaption>The famous screens, after dark</figcaption>
+        </figure>
+      </div>
+      <p>Back at Westminster, we worked our way up to Piccadilly, surfacing from the tube right at Piccadilly Circus &mdash; the one place in the world where you can say "it's like Piccadilly Circus round here" and have it be literally, rather than figuratively, true. We had nothing booked for the evening, so on a whim we picked a film at the Vue: Ridley Scott's post-apocalyptic <em>Dog Star</em>. It turned out to be one of the worst films either of us has ever sat through &mdash; dreadful dialogue, a plot that made no sense &mdash; but so bad it looped back round to being genuinely funny, and the cinematography was, at least, rather good.</p>
+      <p class="pull">The famous statue presiding over Piccadilly Circus is popularly known as Eros, but it's actually his twin brother Anteros &mdash; the god of selfless, requited love rather than reckless passion. Sculptor Alfred Gilbert intended it as a memorial to the philanthropist Lord Shaftesbury, officially titled the Angel of Christian Charity, and it's been quietly misnamed by the public ever since it went up in 1893.</p>
+
+      <h3>Pizza Hut &amp; Home</h3>
+      <p>Hungry after the film, we found a Pizza Hut nearby &mdash; neither of us had set foot in one for years, and it was oddly comforting to find it barely changed: the all-you-can-eat salad bar, chilli flakes on the pizza, a side of fries. From there it was the tube back up to King's Cross and the now thoroughly familiar walk to the Crowne Plaza, tired but full of history, at the end of a day that was supposed to be the easy one. Even so, the step counts told their own story: 15,103 for Andy and 16,616 for Alison &mdash; comfortably our lightest day of the trip, deck chairs and a boat ride clearly doing their job.</p>
+
+    </article>
+  </section>
+
+</div>
+
+<footer>
+  A little holiday break in London &middot; August 2026
+</footer>
+
+</body>
+</html>
